@@ -1,0 +1,26 @@
+
+<!--2018/8/30 -->
+
+JavaScript中如何unset（PHP中提供的释放变量或数组元素的函数）  
+<script>
+// 对象：delete
+var arr = new Object();
+arr["Name"] = "Wilson";
+alert(uneval(arr));//对话框显示({Name:"Wilson"})
+delete arr["Name"];
+alert(uneval(arr));//对话框显示({})
+
+// 数组：slice()
+var arr = Array(10, 20, 30, 40, 50);
+alert(uneval(arr)); //对话框显示[10,20,30,40,50]
+arr.slice(2, 1);
+alert(uneval(arr)); //对话框显示[10,20,40,50]
+alert(arr.length); //对话框显示4
+
+// 错误，数组不能使用delete
+var arr = Array(10, 20, 30, 40, 50);
+alert(uneval(arr)); //对话框显示[10,20,30,40,50]
+delete(arr[2]);
+alert(uneval(arr)); //对话框显示[10,20,,40,50]，注意中间有两个连续的逗号因为第三个元素为undefined
+alert(arr.length); //对话框显示5
+</script>
