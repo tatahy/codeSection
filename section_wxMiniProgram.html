@@ -1,0 +1,28 @@
+<!-- 2018/8/29 -->
+
+<!-- 其他页面(*.wxml)文件都可以复制下述3行代码，实现统一的页脚内容。应用小程序中wxml的模板和wxs的模块实现-->
+<!-- 引用footer.wxs文件-->
+	<wxs module="date" src="../../common/footer.wxs" />
+<!-- 引入footer.wxml文件-->
+	<import src="../../common/footer.wxml" />
+<!-- 使用footer.wxml文件中定义的模板“pgFooter”,对模板中的year变量赋值为footer.wxs文件的date.year-->
+	<template is="pgFooter" data="{{year:date.year}}"/>
+
+	
+<!-- footer.wxs 中的代码-->
+//wxs模块
+var date = getDate();
+module.exports = {
+	year: date.getFullYear()
+};
+
+<!-- footer.wxml 中的代码-->
+<!--模板"pgFooter"-->
+<template name="pgFooter">
+	<view class="weui-footer weui-footer_fixed-bottom">
+		<view class="weui-footer__text">Copyright © {{year-1}}-{{year}} GZOME</view>
+	</view>
+</template>
+
+	
+<!-- 2018/8/29 -->

@@ -10,11 +10,11 @@ alert(uneval(arr));//对话框显示({Name:"Wilson"})
 delete arr["Name"];
 alert(uneval(arr));//对话框显示({})
 
-// 数组：slice()
+// 数组：splice()
 var arr = Array(10, 20, 30, 40, 50);
-alert(uneval(arr)); //对话框显示[10,20,30,40,50]
-arr.slice(2, 1);
-alert(uneval(arr)); //对话框显示[10,20,40,50]
+console.log(arr); //对话框显示[10,20,30,40,50]
+arr.splice(2, 1);
+console.log(arr) //对话框显示[10,20,40,50]
 alert(arr.length); //对话框显示4
 
 // 错误，数组不能使用delete
