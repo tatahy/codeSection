@@ -83,7 +83,7 @@ strtotime("+1 week 2 days 4 hours 2 seconds");
 //得到明天的Unix timestamp
 $tomorrow = mktime(0,0,0,date("m"),date("d")+1,date("Y"));
 //得到明天此时此刻的Unix timestamp
-$tomorrowNow = mktime(dat("H"),dat("i"),dat("s"),date("m"),date("d")+1,date("Y"));
+$tomorrowNow = mktime(date("H"),date("i"),date("s"),date("m"),date("d")+1,date("Y"));
 //以yyyy-mm-dd形式显示明天的日期
 date("Y-m-d",$tomorrow);
 //以yyyy-mm-dd hh:mm:ss形式显示此时此刻的日期、时间
