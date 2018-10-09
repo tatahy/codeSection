@@ -744,7 +744,7 @@ window.location.href
 //页面跳转并传参 
 window.location.href="xx.php?param1="+p1+"&m2="+p2+"";
 
-//设置或获取href属性中在井号“#”后面的分段(锚点？？)：
+//设置或获取href属性中井号“#”及其后面的分段(锚点？？)：
 window.location.hash
 
 //设置或获取location 或 URL 的 hostname 和 port 号码：
@@ -787,98 +787,6 @@ window.parent.frames["framesId"].location.protocol
 
 </script>
 <!--/  HY 2018/4/13 -->	
-
-<!-- HY 2018/4/24 -->	
-//正则表达式检查输入框内容，bootstrap3+jQuery1.12
-<html>
-
-<div class="form-group has-feedback col-sm-6">
-	<label for="usergroupName">用户组名</label>
-	<!-- // bootstrap实现矢量图在输入框开头 -->
-	<div class="input-group ">
-		<span class="input-group-addon"><span class="glyphicon glyphicon-education"></span></span>
-						
-		<input type="text" class="form-control" id="usergroupName" name="usergroupName" value="" placeholder="输入用户组名">
-	</div>	
-	<!-- // 配合jQuery 中的内容验证代码-->
-	<span style="color:red;display: none;" class="spTips"></span>
-     <span style="display: none;margin-right:17px;"  class="spOk glyphicon glyphicon-ok form-control-feedback"></span>
-	<span style="display: none;margin-right:17px;" class="spRemove glyphicon glyphicon-remove form-control-feedback"></span>		
-</div>
-
-</html>
-
-<script>
-<!-- usergroupName内容验证 -->
-	$("#usergroupName").focusout(function(){
-        if(regUserGroupName.test($(this).val())){
-			//$(this)为本页面第0个输入框
-			success($(this),0);	
-		}else if ($(this).val().length < 5) {
-        	if($(this).val()==''){
-				fail($(this), 0, '用户组名不能为空。');
-			}else{
-				fail($(this), 0, '用户组名太短，不能少于5个字符。');
-			}
-		}
-		else {
-        	fail($(this), 0, '用户组名为英文、数字、中文和下划线，但不能以数字开头。')
-    	}
-  	});
-	
-	$('#btnCreate').click(function(event) {
-  	//JavaScript的数组处理方法every(callback)，对数组中的每个元素都执行一次
-	//callback函数，直到callback返回false，every就返回false；
-	//若全部元素执行callback后都返回ture，every就返回true。
-	//此处的用意是只要数组check中存在false，将该项找出，并把该项对应的input用“has-error”突出显示。
-		var flag=check.every(function(value) {
-            return value == true
-        });
-			
-		<!-- // jQuery的preventDefault()方法阻止元素发生默认的行为。阻止表单提交动作 -->
-        event.preventDefault();
-		if (!flag) {
-			<!-- //check中存在false,对应的input用“has-error”突出显示。 -->
-        	for (key in check) {
-            	if (!check[key]) {
-                	$("#addUser").find("input").eq(key).parent().parent().removeClass("has-success").addClass("has-error");
-            	}else{
-					$("#addUser").find("input").eq(key).parent().parent().removeClass("has-error").addClass("has-success");
-				}
-        	}
-    	}
-	});
-
-// 正则表达式，可以为英文、数字、中文和下划线,但不能以数字开头,unicode编码中的汉字范围:\u2E80-\u9FFF
-var regUserGroupName = /^[a-zA-Z_\u2E80-\u9FFF][a-zA-Z0-9_\u2E80-\u9FFF]{4,19}$/;
-
-// 数组，存储表单中输入框内容验证结果“true/false”。数组下标应与输入框下标一致，便于编程选择输入框
-var check = [false];
-
-	//校验成功函数
-function success(obj, counter) {
-    var divParent=obj.closest('.has-feedback');
-	divParent.removeClass('has-error').addClass('has-success');
-	divParent.find('.spTips').hide();
-    divParent.find('.spOk').show();
-    divParent.find('.spRemove').hide();
-    check[counter] = true;
-}
-
-// 校验失败函数
-function fail(obj, counter, msg) {
-    var divParent=obj.closest('.has-feedback');
-	divParent.removeClass('has-success').addClass('has-error');
-	divParent.find('.spTips').text(msg).show();
-    divParent.find('.spOk').hide();
-    divParent.find('.spRemove').show();
-    check[counter] = false;
-}
-</script>
-
-<!--/  HY 2018/4/24 -->	
-
-
 
 <!--  HY 2018/4/29 -->	
 
@@ -1245,7 +1153,111 @@ const formatNumber = n => {
   return n[1] ? n : '0' + n
 }
 </script>
-<!--//  HY 2018/7/11 -->	
+
+
+<!--//  HY 2018/9/24 正则表达式, jQuery1.12+bootstrap3 -->	
+<html>
+<div class="form-group has-feedback col-sm-6">
+	<label for="username">用户名<span class="small glyphicon glyphicon-asterisk text-danger"></span></label>
+	<!-- // bootstrap实现矢量图在输入框开头 -->
+	<div class="input-group">
+		<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+		<input type="text" class="form-control inputCheck" name="userName" value="{$user.username}" placeholder="登录系统的用户名">	
+	</div>
+					
+	<!-- // 配合jQuery 中的内容验证代码-->
+	<span style="color:red;display:none;" class="spTips"></span>
+    <span style="display: none;margin-right:17px;" class="spRemove glyphicon glyphicon-remove form-control-feedback"></span>
+    <span style="display: none;margin-right:17px;" class="spOk glyphicon glyphicon-ok form-control-feedback"></span>	
+</div>
+
+</html>
+
+<script>
+
+var regCheckUserName=(obj)=>{
+	//userName正则表达式，由英文、数字、中文和下划线组成,但不能以数字开头,长度为2到20个字符。unicode编码中的汉字范围:\u2E80-\u9FFF
+	var regUserName = /^[a-zA-Z_\u2E80-\u9FFF][a-zA-Z0-9_\u2E80-\u9FFF]{1,19}$/;
+	var len=obj.val().length;
+	var result=false;
+	if (regUserName.test(obj.val())) {
+        result=regSuccess(obj);
+    } else if (len < 2) {
+        regFail(obj,'有'+obj.val().length+'个字符，不能少于2个字符。');
+    } else {
+        regFail(obj,'可由英文、数字、中文和下划线组成，但不能以数字开头。')
+    }
+	return result;
+};
+
+var regCheckUserMobile=(obj)=>{
+	//mobile正则表达式，11位数字。必须以1开头。
+	var regMobile = /^1[0-9]{10}$/;
+	var len=obj.val().length;
+	var result=false;
+	if (regMobile.test(obj.val())) {
+        result=regSuccess(obj);
+    } else if (len< 11) {
+        regFail(obj, '只有'+len+'位。手机号是11位数字，必须以1开头。');
+    } else if (len > 11) {
+        regFail(obj,'有'+len+'位，手机号由1开头的11位数字组成。');
+    }else {
+        regFail(obj,'已有'+len+'位，但必须是以1开头的11位数字')
+    }
+	return result;
+};
+
+var regCheckUserPwd=(obj)=>{
+	//pwd正则表达式，
+	//1.以字母开头，长度在6~20之间，只能包含字符、数字和下划线
+	//var regPwd = /^[a-zA-Z]\w{5,19}$/;
+	
+	//2.数字，字母和下划线（至少包含其中两种，数字不能开头）,长度在6~20之间
+	//var regPwd = /^(?![0-9]+$)(?![a-zA-Z]+$)[A-Za-z_][A-Za-z_0-9]{5,19}$/;
+	
+	//3.数字，字母和下划线（至少包含其中两种，下划线不能开头）,长度在6~20之间。非下划线开头，不是纯数字，不是纯字母，字母数字组合，字母数字下划线组合，长度在6~20之间
+	var regPwd = /^(?![_]+$)(?![0-9]+$)(?![A-Za-z]+$)[A-Za-z0-9][A-Za-z_0-9]{5,19}$/;
+	var len=obj.val().length;
+	var result=false;
+	if (regPwd.test(obj.val())) {
+        result=regSuccess(obj);
+    } else if (len < 6 || len>20) {
+        regFail(obj,'有'+obj.val().length+'个字符，长度应为6~20。');
+    } else {
+        //1.
+		//regFail(obj,'以字母开头，只能包含字符、数字和下划线');
+		//2.	
+		//regFail(obj,'数字，字母和下划线（至少包含其中两种，数字不能开头）');
+		
+		//3.
+		regFail(obj,'数字，字母和下划线（至少包含其中两种，下划线不能开头）');
+    }
+	return result;
+};
+
+//校验成功函数，返回true
+var regSuccess=(obj)=> {
+    var divParent=obj.closest('.has-feedback');
+	divParent.removeClass('has-error').addClass('has-success');
+	divParent.children('span').hide();
+	divParent.children('.spOk').show();
+    return true;
+};
+
+// 校验失败函数，返回false
+var regFail=(obj,msg)=> {
+    var divParent=obj.closest('.has-feedback');
+	divParent.removeClass('has-success').addClass('has-error');
+	divParent.children('span').hide();
+	divParent.children('.spTips').text(msg).show();
+    divParent.children('.spRemove').show();
+	return false;
+};
+
+
+</script>
+<!--//  --HY 2018/9/24 正则表达式, jQuery1.12+bootstrap3 -->	
+	
 
 <!--//  HY 2018/7/11 -->	
 

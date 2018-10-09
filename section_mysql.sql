@@ -59,3 +59,23 @@ An error occurs if you try to modify an account that does not exist.
 http://dev.mysql.com/doc/refman/5.7/en/alter-user.html
 
 <!--/  HY 2018/5/31 -->	
+
+<!--  HY 2018/10/9 -->	
+-- //MySQL 数据表中导入*.xlsx文件
+1. Office Excel打开'*.xlsx'文件，另存为'*.csv'文件
+2. NP++中打开上一步中创建的'*.csv'文件，选择'编码'->'转为UTF-8编码'（UTF-8为MySQL中的通用编码方式，Office Excel使用的是'ANSI编码'）
+3. phoMyAdmin中选定MySQLd数据表,导入上一步中修改后的'*.csv'文件。注意各项分隔符的内容要与'*.csv'中的一致。
+
+-- //MySQL 数据表中导出*.csv文件给Office Excel
+ phoMyAdmin中选定MySQLd数据表，
+ '格式'：'CSV for MS Excel';
+ 勾选'首行保存字段名'，
+ 'Excel版本':'Excel 2008'，
+ '文件的字符集':'gb2312'
+
+<!--/  HY 2018/10/9 -->	
+
+
+
+
+

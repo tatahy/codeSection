@@ -66,3 +66,32 @@ var fnNameA = function () {
 
 </script>
 <!--2018/9/11 -->
+
+
+<!-- // 2018/9/11 -->
+<script>
+//数组的map方法应用举例
+
+a=[1,2,3,4,5];
+b=[4,5,6,7,8];
+c=a.map((val,index)=>(val+b[index]));
+console.log(c);
+
+//输出结果：[5,7,9,11,13]
+
+//合并2个数组，去掉2者的共有项，保留一个。
+function flatten(arr1,arr2){ 
+	var result = []; 
+	var arr = []; 
+	arr = arr2.reduce(function(prev, curr){ prev.push(curr); return prev; },arr1); 
+	for (var i = 0; i < arr.length; i++) { 
+		var index = arr[i]; 
+		if (result.indexOf(index) === -1) { 
+			result.push(index); 
+		} 
+	} 
+		
+	return result; 
+}
+
+</script>
