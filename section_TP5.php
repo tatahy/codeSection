@@ -2476,3 +2476,38 @@ DIRECTORY_SEPARATOR
 
 
 <!--//  HY 2018/7/26 -->
+
+<!--  HY 2018/11/16 -->
+//获取数据表信息，Query类中的方法：
+<? php
+use think\db\Query;
+
+//获取当前数据表的主键
+Query::getPk($options = '');
+
+// 获取当前数据表所有字段名称
+Query::getTableFields($table = '');
+
+// 获取当前数据表所有字段名称及其类型
+Query::getFieldsType($table = '');
+
+// 获取当前数据表绑定信息
+Query::getFieldsBind($table = '');
+
+// 获取字段绑定类型
+Query::getFieldBindType($type);
+
+
+//在一个前置查询范围内分为2个不同的查询。使用闭包实现
+$sets=Query::where(function($query) use($dept,$scopeArr,$whereArr){
+                $query->where($scopeArr)->where('dept_now',$dept)->where($whereArr);
+            })
+            ->whereOr(function($query) use($dept,$userName,$scopeArr,$whereArr){
+                $query->where($scopeArr)->where('keeper_now',$userName)->where('dept_now','<>',$dept)->where($whereArr);
+            })
+			->order()
+			->select();
+
+?>
+
+<!--//  HY 2018/11/16 -->
