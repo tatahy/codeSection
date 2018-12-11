@@ -1,7 +1,7 @@
 
 <!--2018/8/30 -->
 
-JavaScript中如何unset（PHP中提供的释放变量或数组元素的函数）  
+JavaScript中如何unset（PHP中提供的释放变量或数组元素的函数：unset()）  
 <script>
 // 对象：delete
 var arr = new Object();
@@ -103,6 +103,8 @@ function flatten(arr1,arr2){
 
 //JSON.stringify(value[,replacer[,space]])，将一个JavaScript值（对象或数组）转换为一个JSON字符串
 
+//json数据可与PHP中的关联数组建立一一对应的关系。json键名就是关联数组下标，json键值就是关联数组下标对应的值。
+
 </script>
 
 <!--2018/10/30 -->
@@ -117,3 +119,148 @@ function flatten(arr1,arr2){
 
 </script>
 
+<!--2018/11/27 -->
+<script>
+//php中的数组numArr=['_PATS1'=>1,'_PATS2'=>2,'_PATS3'=>3,'_PATS4'=>4,'_PATS_END'=>5,'_PROS1'=>1,'_PROS2'=>2,'_PROS3'=>3,'_PROS4'=>4,'_PROS_END'=>5,'_THES1'=>1,'_THES2'=>2,'_THES3'=>3,'_THES4'=>4,'_THES_END'=>5],经过json_encode(numArr)后就成为json对象（字符串？）numObj;
+
+//在js中接收到该numObj后选择其中的_PAT部分重组为{'_PAT':{'S_INPROCESS':10,'S1':1,'S2':2,'S3':3,'S4':4,'S_END':5}对象，便于后续的使用
+var selectNumObj=(numObj)=>{
+	let issEntName='_PAT',
+		nameArr=Object.keys(numObj),
+		valArr=Object.values(numObj),
+		numTotal=0;
+		arr=[],
+		obj={};
+	
+	for(let i=0;i<nameArr.length;i++){
+		arr[i]={'name':nameArr[i],'val':valArr[i]};
+	}
+	
+	arr.forEach(function(item,index){
+		//含有issEntName的才截取到obj中
+		if(item.name.includes(issEntName)){
+			if(item.val){
+				let n=item.name.indexOf(issEntName);
+				if(n==0){
+					obj[item.name.substring(n+4)]=item.val;
+				}else{
+					obj[item.name]=item.val;
+				}
+			}else{
+				obj[item.name]='';
+			}
+			numTotal+=item.val*1;
+		}
+	});
+	
+	obj['S_INPROCESS']=(numTotal-obj['S_END'])?(numTotal-obj['S_END']):'';
+	
+	return obj;
+};
+
+
+
+</script>
+
+<script>
+//formData,xhr,html5_map标签,文件上传
+1 : 
+
+//更省事
+
+var files = fileInput.files;
+
+var formData = new FormData();
+
+//将所有文件插入formData
+
+formData .append(“xx”,1)
+
+for (var i=0; i<files.length; i++) {
+
+    formData.append(fileInput.name, files[i]);
+
+}
+
+            
+
+var xhr = new XMLHttpRequest();
+
+xhr.open('POST',"http://localhost/ajaxload/test.php",true);
+
+//即可上传
+
+xhr.send(formData);
+
+ 
+
+Window.btoa // base64 =to=> asicll
+
+Window.atob // ascill =to=base63
+
+//formData对象转为一个json对象
+formData=new FormData();
+jsonObj={};
+
+//方法1：使用Map对象的forEach方法组装键值对(对象)
+formData.forEach(function(val,key){
+	jsonObj[key]=val;
+});
+
+//方法2：使用formData的entries()方法形成2维数组后组装		
+for(var pair of formData.entries()) {
+	jsonObj[pair[0]]=pair[1];
+}
+
+console.dir(dataIss);
+
+
+</script>
+
+ 
+<html>
+//Html5 中的map标签(wow，图片里面可以添加链接了)
+
+<img src=”xxx” usemap=”#map1”/>
+
+<map name=”map” id=”#map1”>
+
+  <area target=”_bank”  href=”xxxx” shape=”rect” coords=”0,100,200,300”></area>
+
+</map>
+</html>
+<!-- //2018/11/27 -->
+
+<!--2018/12/11 -->
+<script>
+//JavaScript中的关联数组/hash数组：arr={a:1,b:2,c:{k:22,d:44}}
+
+
+//定义方法1，添加键值对
+var arr=[];
+arr['a']=1;
+arr['b']=2;
+arr['c']={k:22,d:44};
+
+//定义方法2，直接定义
+var arr={a:1,b:2,c:{k:22,d:44}};
+
+//引用方法1，与json对象的引用方法相同
+val=arr.c.k; //val=22
+
+//引用方法2，与PHP中访问关联数组的引用方法相同
+val=arr['c']['k']; //val=22
+
+//遍历方法
+for(var key in arr){
+ var val=arr[key];
+}
+
+//删除键值对
+delete arr['a'];
+delete arr.a;
+
+//严格来说关联数组/hash数组在js中是对象Object，js中对对象的访问、删除方式就是上述的引用、删除方式，或者2种方法混用。
+
+</script>
+<!-- // 2018/12/11 -->
