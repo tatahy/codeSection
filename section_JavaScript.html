@@ -237,23 +237,24 @@ console.dir(dataIss);
 
 
 //定义方法1，添加键值对
-var arr=[];
-arr['a']=1;
-arr['b']=2;
-arr['c']={k:22,d:44};
+var a1=[];
+a1['a']=1;
+a1['b']=2;
+a1['c']={k:22,d:44};
+
 
 //定义方法2，直接定义
-var arr={a:1,b:2,c:{k:22,d:44}};
+var a2={a:1,b:2,c:{k:22,d:44}};
 
 //引用方法1，与json对象的引用方法相同
-val=arr.c.k; //val=22
+val=a2.c.k; //val=22
 
 //引用方法2，与PHP中访问关联数组的引用方法相同
-val=arr['c']['k']; //val=22
+val=a1['c']['k']; //val=22
 
 //遍历方法
-for(var key in arr){
- var val=arr[key];
+for(var key in a1){
+ var val=a1[key];
 }
 
 //删除键值对
@@ -261,6 +262,27 @@ delete arr['a'];
 delete arr.a;
 
 //严格来说关联数组/hash数组在js中是对象Object，js中对对象的访问、删除方式就是上述的引用、删除方式，或者2种方法混用。
+
+//递归函数得到指定键的值，要求键名以类似‘xx-yy-zz’的字符串形式给出(该字符串为键名访问路径，zz为最终需要访问的键名)，并保证一定都存在,例如getValue('c-d',a1)就输出44。与a1['c']['d']、a1.c['d']的输出一样
+function getValue(keyStr,obj){
+	let k='',v='',arr=[];
+	
+	if(keyStr.indexOf('-')>0){
+		arr=keyStr.split('-');
+	}
+	
+	if(arr.length){
+		k=arr.shift();
+		keyStr=arr.join('-');
+		v=getValue(keyStr,obj[k]);
+	}else{
+		v=obj[keyStr];		
+	}
+	return v;
+}
+
+
+
 
 </script>
 <!-- // 2018/12/11 -->
