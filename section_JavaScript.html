@@ -1,32 +1,4 @@
 
-<!--2018/8/30 -->
-
-JavaScript中如何unset（PHP中提供的释放变量或数组元素的函数：unset()）  
-<script>
-// 对象：delete
-var arr = new Object();
-arr["Name"] = "Wilson";
-alert(uneval(arr));//对话框显示({Name:"Wilson"})
-delete arr["Name"];
-alert(uneval(arr));//对话框显示({})
-
-// 数组：splice()
-var arr = Array(10, 20, 30, 40, 50);
-console.log(arr); //对话框显示[10,20,30,40,50]
-arr.splice(2, 1);
-console.log(arr) //对话框显示[10,20,40,50]
-alert(arr.length); //对话框显示4
-
-// 错误，数组不能使用delete
-var arr = Array(10, 20, 30, 40, 50);
-alert(uneval(arr)); //对话框显示[10,20,30,40,50]
-delete(arr[2]);
-alert(uneval(arr)); //对话框显示[10,20,,40,50]，注意中间有两个连续的逗号因为第三个元素为undefined
-alert(arr.length); //对话框显示5
-</script>
-
-<!--//2018/8/30 -->
-
 <!--2018/9/11 -->
 <script>
 //函数定义1：箭头函数定义
@@ -233,17 +205,18 @@ console.dir(dataIss);
 
 <!--2018/12/11 -->
 <script>
-//JavaScript中的关联数组/hash数组：arr={a:1,b:2,c:{k:22,d:44}}
+//JavaScript的hash数组（Object，与PHP中的关联数组对应）：arr={a:1,b:2,c:{k:22,d:44}}
 
-
-//定义方法1，添加键值对
+// 定义
+var arr = new Object();
 var a1=[];
+
+//赋值方法1，添加键值对
 a1['a']=1;
 a1['b']=2;
 a1['c']={k:22,d:44};
 
-
-//定义方法2，直接定义
+//赋值方法2，直接赋值
 var a2={a:1,b:2,c:{k:22,d:44}};
 
 //引用方法1，与json对象的引用方法相同
@@ -261,7 +234,7 @@ for(var key in a1){
 delete arr['a'];
 delete arr.a;
 
-//严格来说关联数组/hash数组在js中是对象Object，js中对对象的访问、删除方式就是上述的引用、删除方式，或者2种方法混用。
+//严格来说hash数组在js中是对象Object，js中对对象的访问、删除方式就是上述的引用、删除方式，或者2种方法混用。
 
 //递归函数得到指定键的值，要求键名以类似‘xx-yy-zz’的字符串形式给出(该字符串为键名访问路径，zz为最终需要访问的键名)，并保证一定都存在,例如getValue('c-d',a1)就输出44。与a1['c']['d']、a1.c['d']的输出一样
 function getValue(keyStr,obj){
@@ -281,8 +254,24 @@ function getValue(keyStr,obj){
 	return v;
 }
 
+//JavaScript中的数组（Array，与PHP中的索引数组对应）
 
+// 数组删除：splice()，（ PHP中提供的释放变量或数组元素的函数：unset()） 
+var arr = Array(10, 20, 30, 40, 50);
+console.log(arr); //对话框显示[10,20,30,40,50]
+arr.splice(2, 1);
+console.log(arr) //对话框显示[10,20,40,50]
+alert(arr.length); //对话框显示4
 
+// 错误，数组不能使用delete
+var arr = Array(10, 20, 30, 40, 50);
+alert(uneval(arr)); //对话框显示[10,20,30,40,50]
+delete(arr[2]);
+alert(uneval(arr)); //对话框显示[10,20,,40,50]，注意中间有两个连续的逗号因为第三个元素为undefined
+alert(arr.length); //对话框显示5
+
+//数组遍历
+arr.forEach(function(el,index){});
 
 </script>
 <!-- // 2018/12/11 -->
