@@ -208,7 +208,8 @@ console.dir(dataIss);
 //JavaScript的hash数组（Object，与PHP中的关联数组对应）：arr={a:1,b:2,c:{k:22,d:44}}
 
 // 定义
-var arr = new Object();
+var a1 = new Object();
+var a1 = {};
 var a1=[];
 
 //赋值方法1，添加键值对
@@ -226,8 +227,12 @@ val=a2.c.k; //val=22
 val=a1['c']['k']; //val=22
 
 //遍历方法
+//循环计数器
+var m=0,
 for(var key in a1){
- var val=a1[key];
+ 	var val=a1[key];
+ 
+ 	m++;
 }
 
 //删除键值对
@@ -275,3 +280,22 @@ arr.forEach(function(el,index){});
 
 </script>
 <!-- // 2018/12/11 -->
+
+
+<!--  2018/12/29 -->
+<script>
+//FormData对象，
+
+//由表单内容生成FormData对象
+formData=new FormData($('fm')[0]);
+
+//遍历formData中的键值对
+for(let p of formData){
+	console.log(p[0]+' | '+p[1]);
+}
+
+//XMLHttpRequest对象
+
+</script>
+<!-- // 2018/12/29 -->
+
