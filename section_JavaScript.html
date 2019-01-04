@@ -299,3 +299,28 @@ for(let p of formData){
 </script>
 <!-- // 2018/12/29 -->
 
+<!--  2019/01/04 -->
+<script>
+//深冻结函数，递归冻结每一个属性，因Object.freeze()仅冻结第一层属性
+function deepFreeze(obj){
+	//第一层属性名
+	var propNames=Object.getOwnPropertyNames(obj);
+	//冻结自身前冻结所有属性
+	propNames.forEach(function(name){
+		var prop=obj[name];
+		//如果是一个对象就冻结
+		if(typeof prop=='object' && prop !==null)
+			deepFreeze(prop);
+	});
+	//冻结自身
+	return Object.freeze(obj);
+}
+//不允许修改/增加/删除属性（深冻结）
+const authEntCoreProp=deepFreeze({$authEnt});
+//浅拷贝，对authEntProp进行delete等有效
+const authEntProp=Object.assign({},authEntCoreProp);
+//深拷贝，对authEntProp进行delete等无效
+//与const authEntProp=authEntCoreProp等效？
+const authEntProp=Object.create(authEntCoreProp).__proto__;
+</script>
+<!-- // 2019/01/04 -->
