@@ -735,57 +735,7 @@ $('body').on('click', '#next', function() {
 
 <!--  HY 2018/4/13 -->	
 
-<script>
-"window.location"
 
-//设置或获取整个url为字符串：
-window.location.href
-
-//页面跳转并传参 
-window.location.href="xx.php?param1="+p1+"&m2="+p2+"";
-
-//设置或获取href属性中井号“#”及其后面的分段(锚点？？)：
-window.location.hash
-
-//设置或获取location 或 URL 的 hostname 和 port 号码：
-window.location.host
-
-//设置或获取href属性中跟在问号后面的部分：
-window.location.search
-
-//设置或获取对象指定的文件名或路径：
-window.location.pathname
-
-//设置或获取与URL关联的端口号码：
-window.location.port
-
-//设置或获取 URL 的协议部分：
-window.location.protocol
-
-//同样的要在frameset中获取到指定的页面的url也是可以的只要把window换成你指定的页面就可以了，比如：
-
-//设置或获取整个url为字符串：
-window.parent.frames["framesId"].location.href
-
-//设置或获取href属性中在井号“#”后面的分段：
-window.parent.frames["framesId"].location.hash
-
-//设置或获取location 或 URL 的 hostname 和 port 号码：
-window.parent.frames["framesId"].location.host
-
-//设置或获取href属性中跟在问号后面的部分：
-window.parent.frames["framesId"].location.search
-
-//设置或获取对象指定的文件名或路径：
-window.parent.frames["framesId"].location.pathname
-
-//设置或获取与URL关联的端口号码：
-window.parent.frames["framesId"].location.port
-
-//设置或获取 URL 的协议部分：
-window.parent.frames["framesId"].location.protocol
-
-</script>
 <!--/  HY 2018/4/13 -->	
 
 <!--  HY 2018/4/29 -->	
@@ -1135,8 +1085,9 @@ https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Statements/for
 	
 
 <!-- HY 2018/8/14 -->	
-//标准日期、标准时间，2018/03/05 01:05:04
+
 <script>
+//标准日期、标准时间，2018/03/05 01:05:04
 const formatTime = date => {
   const year = date.getFullYear()
   const month = date.getMonth() + 1
@@ -1284,7 +1235,26 @@ obj.hover(
 );
 
 </script>
-<!--//  HY 2019/1/11 -->			
+<!--//  HY 2019/1/11 -->
+
+<!--//  HY 2019/02/15 -->
+
+//表单中对含有‘name’属性的元素取值
+$('form').submit(function(evt) {
+	evt.preventDefault();
+	$(this).find('[name]').each(function(k,v){
+		//jQ取值
+		console.log($(v).attr('name'));
+		console.log($(v).val());
+		//原生js取值
+		console.log(this.attributes.name.value);
+		console.log(this.value);
+	});
+});
+		
+
+<!--//  HY 2019/02/15 -->		
+			
 
 <!--//  HY 2018/0/0 -->		
 
@@ -1312,8 +1282,6 @@ jsonp
 5.函数调用时apply()与call()的区别：
 
 例如：
-
-<script>
 var success = function success() {
  ~~~~
 };
@@ -1332,6 +1300,34 @@ var fail = function fail() {
 	var callFail = function (error) {
 		fail.call(null, error);
 	};	
-</script>
 
-<!--// ......................问题................................ -->	
+6. $(this)的内容
+
+$('form').find('[name]').each(function(){
+	console.log($(this));
+	/* 上述语句将在console中输出{0:{...},context:{...}}
+	$(this)[0]的内容；对象本身
+	$(this).context的内容：对象的各个属性值。 */
+});
+
+$('form').find('[name]').each(function(index,obj){
+	console.log(obj.context.tagName+' | '+index);
+	/* 上述语句将在console中输出:
+	对象的HTML标签名（大写）和对象在选择器结果集中的下标值。
+	obj是JavaScript中的对象，使用$(obj)就变成jQuery中的对象。
+	*/
+
+});
+
+7. $.data()的内容
+
+<html>
+<a data-name="nn",data-val="vv"></a>
+</html>
+
+console.log($('a').data());
+/* 上述语句将在console中输出:
+	对象的data键值对hash数组：{name:'nn',val:'vv'}
+*/
+
+// ......................问题................................ 

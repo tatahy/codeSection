@@ -2478,7 +2478,7 @@ DIRECTORY_SEPARATOR
 <!--//  HY 2018/7/26 -->
 
 <!--  HY 2018/11/16 -->
-//获取数据表信息，Query类中的方法：
+//获取数据表信息，Query类中的方法（模型类也可使用）
 <? php
 use think\db\Query;
 

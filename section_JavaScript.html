@@ -16,10 +16,24 @@ function () {
 	//statement
 }
 
-//函数定义4：自调用匿名函数，立即执行??。常用于插件开发
+//函数定义4：自调用匿名函数，具有立即执行的特点，常用于插件开发
 ;(function($,window,document,undefined){
 	//statement
-})(jQuery,window,document);
+})
+(jQuery,window,document);
+
+//自调用匿名函数的2种结构。
+(function($,p){ 
+	// console.log(p);
+})
+(jQuery,'p1');
+
+(function($,p){ 
+	// console.log(p);
+}
+(jQuery,'p2')
+);
+
 
 //定义函数名，可调用箭头函数
 var fnName=(foo,bar)=>{	
@@ -299,8 +313,8 @@ for(let p of formData){
 </script>
 <!-- // 2018/12/29 -->
 
-<!--  2019/01/04 -->
-<script>
+// 2019/01/04 
+
 //深冻结函数，递归冻结每一个属性，因Object.freeze()仅冻结第一层属性
 function deepFreeze(obj){
 	//第一层属性名
@@ -322,5 +336,148 @@ const authEntProp=Object.assign({},authEntCoreProp);
 //深拷贝，对authEntProp进行delete等无效
 //与const authEntProp=authEntCoreProp等效？
 const authEntProp=Object.create(authEntCoreProp).__proto__;
+
+// ! 2019/01/04
+
+// 2019/02/14 
+//字符串中插入变量
+var str='11';
+var color='red';
+console.log('%c%s',`font-size:16px;color:${color};`,str);
+
+<script>
+// "window.location"
+
+//设置或获取整个url为字符串：
+window.location.href
+
+//页面跳转并传参 
+window.location.assign("xx.php?param1="+p1+"&m2="+p2+"");
+window.location.href="xx.php?param1="+p1+"&m2="+p2+"";
+
+//设置或获取href属性中井号“#”及其后面的分段(锚点？？)：
+window.location.hash
+
+//设置或获取location 或 URL 的 hostname 和 port 号码：
+window.location.host
+
+//设置或获取href属性中跟在问号后面的部分：
+window.location.search
+
+//设置或获取对象指定的文件名或路径：
+window.location.pathname
+
+//设置或获取与URL关联的端口号码：
+window.location.port
+
+//设置或获取 URL 的协议部分：
+window.location.protocol
+
+//同样的要在frameset中获取到指定的页面的url也是可以的只要把window换成你指定的页面就可以了，比如：
+
+//设置或获取整个url为字符串：
+window.parent.frames["framesId"].location.href
+
+//设置或获取href属性中在井号“#”后面的分段：
+window.parent.frames["framesId"].location.hash
+
+//设置或获取location 或 URL 的 hostname 和 port 号码：
+window.parent.frames["framesId"].location.host
+
+//设置或获取href属性中跟在问号后面的部分：
+window.parent.frames["framesId"].location.search
+
+//设置或获取对象指定的文件名或路径：
+window.parent.frames["framesId"].location.pathname
+
+//设置或获取与URL关联的端口号码：
+window.parent.frames["framesId"].location.port
+
+//设置或获取 URL 的协议部分：
+window.parent.frames["framesId"].location.protocol
+
 </script>
-<!-- // 2019/01/04 -->
+
+// ! 2019/02/14 
+
+// 2019/02/26
+
+//类的定义1；函数
+
+function Animal() { }
+
+//拓展Animal的原型方法
+Animal.prototype.speak = function() {
+  return this;
+}
+//增加Animal的方法
+Animal.eat = function() {
+  return this;
+}
+
+let obj = new Animal();
+let speak = obj.speak;
+speak(); // global object
+
+let eat = Animal.eat;
+eat(); // global object
+
+
+//类的定义2；类声明
+
+/* 
+ECMAScript 2015 中引入的 JavaScript 类实质上是JavaScript现有的基于原型的继承的语法糖。类语法不会为JavaScript引入新的面向对象的继承模型。
+
+函数声明和类声明之间的一个重要区别是函数声明会提升，类声明不会。你首先需要声明你的类，然后访问它，否则会抛出一个ReferenceError。
+
+方法内的this指向的是方法所在的类。 
+*/
+class Rectangle {
+    // constructor
+    constructor(height, width) {
+        this.height = height;
+        this.width = width;
+    }
+    // Getter
+    get area() {
+        return this.calcArea()
+    }
+    // Method
+    calcArea() {
+        return this.height * this.width;
+    }
+	//静态方法
+	static distance(a, b) {
+        const dx = a.x - b.x;
+        const dy = a.y - b.y;
+
+        return Math.hypot(dx, dy);
+    }
+	
+}
+const square = new Rectangle(10, 10);
+
+console.log(square.area);
+console.log(Point.distance(p1, p2));
+// 100
+
+
+
+//类的定义3；类表达式
+//类表达式可以是命名也可以是匿名的。JavaScript的类也是基于原型继承的。
+const MyClass = class [className] [extends] {
+  // class body
+};
+
+//匿名类表达式
+var searchFormCollapse= class {
+	
+}
+
+//命名类表达式。这个名字只能在类体内部才能访问到。
+var searchFormCollapse= class sfc{
+	
+}
+
+
+// ! 2019/02/26
