@@ -1242,13 +1242,21 @@ obj.hover(
 //表单中对含有‘name’属性的元素取值
 $('form').submit(function(evt) {
 	evt.preventDefault();
-	$(this).find('[name]').each(function(k,v){
-		//jQ取值
-		console.log($(v).attr('name'));
-		console.log($(v).val());
-		//原生js取值
-		console.log(this.attributes.name.value);
-		console.log(this.value);
+	$(this).find('[name]').each(function(index,el){
+		//jQ生成数组，$(el)==$(this)
+		console.log($(el).attr('name'));
+		console.log($(el).val());
+		
+		jQName[index]=$(el).attr('name');
+		jQVal[index]=$(el).val();
+		//原生js取值1
+		jsNameA[index]=el.attributes.name.value;
+		jsValA[index]=el.value;
+		
+		//原生js取值2
+		jsNameB[index]=this.attributes.name.value
+		jsValB[index]=this.value
+		
 	});
 });
 		

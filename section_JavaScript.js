@@ -353,7 +353,10 @@ window.location.href
 
 //页面跳转并传参 
 window.location.assign("xx.php?param1="+p1+"&m2="+p2+"");
+window.location.assign(`xx.php?param1="${p1}"&m2="${p2}"`);
+
 window.location.href="xx.php?param1="+p1+"&m2="+p2+"";
+window.location.href=`xx.php?param1="${p1}"&m2="${p2}"`;
 
 //设置或获取href属性中井号“#”及其后面的分段(锚点？？)：
 window.location.hash
@@ -479,5 +482,116 @@ var searchFormCollapse= class sfc{
 	
 }
 
-
 // ! 2019/02/26
+
+// 2019/03/05
+/* Class/类的动态导出与导入 */
+
+// 方式1:
+// 类定义文件：app/SearchFormCollapse.class.js
+export class SearchFormCollapse {
+	
+}
+// 类导入文件：app/Sindex.js
+//动态加载类
+	import('./SearchFormCollapse.class.js')
+	.then(module=>{
+		let sFCObj=new module.SearchFormCollapse;
+		let fmId=sFCObj.formId;
+			
+		console.log(fmId);
+	})
+	.catch(err=>{
+		console.log(err);
+	});				
+
+//方式2：
+// 类定义文件：app/SearchFormCollapse.class.js
+export default class SearchFormCollapse {
+	
+}
+// 类导入文件：app/Sindex.js
+//动态加载类
+	import('./SearchFormCollapse.class.js')
+	.then(module=>{
+		let sFCObj=new module.default;
+		let fmId=sFCObj.formId;
+			
+		console.log(fmId);
+	})
+	.catch(err=>{
+		console.log(err);
+	});	
+	
+/* async/await */
+
+//定义async函数asyInitData()进行全局变量赋值，默认返回的是一个promise对象。
+async function asyInitData() {
+	//$.post()方法返回的是jqXHR对象，这个jqXHR对象是对所发起的request的响应结果
+	// let resData = await $.post('/index/index/getInitData');
+	//fetch()方法返回的是一个Promise对象，这个promise对象resolve成一个response对象，这个response对象是对所发起的request的响应结果。
+	let resObj = await fetch('/index/index/getInitData');
+	//完成response对象内容解析
+	let resData =await resObj.json();
+	// let resData =await resObj.blob();
+	
+	//全局变量赋值
+	userName=resData.userName;
+	urlObj=resData.urlObj;
+	entNum=resData.entNum;
+	rqData=initRqData();
+	//完善entProp中的num属性值
+	for(let ent in entProp){
+		for(let per in entProp[ent].period.detail){
+			entProp[ent].period.detail[per].title.num=entNum[ent][per];
+		}
+	}
+	return userName;
+}
+
+//asyInitData()
+asyInitData()
+.then(function(uName){
+	let str='数据初始化失败。页面无法正常显示。';
+	
+	if(uName){
+		str='用户【'+uName+'】登录成功。';
+		pageInit();
+		pageReady();
+	}
+	return $.alert(str);
+})
+.catch((err)=>{
+	console.log(err);
+})
+.finally(()=>{
+	
+});
+
+//  2019/03/14
+//增加随机因子salt（公钥）加密pwd
+//加密端发送：
+/* 
+1. 密文：data['pwd']
+2. 公钥：salt
+
+ */
+var val='xxx'; //（私钥）
+data={salt:String(Math.ceil(Math.random()*10000))};
+//对私钥进行加密后得到密文
+data['pwd']=md5(md5(val)+data.salt);
+
+//解密端：需要解密端存有上述加密端的md5(val)或者val的值按照相同的算法进行验证。
+/* 
+关键在于
+1.公钥的产生要随机，
+2.私钥不能被第三方得到，
+才能保证加密。 
+*/
+
+			
+// ! 2019/03/14
+			
+// ! 2019/03/05
+
+
