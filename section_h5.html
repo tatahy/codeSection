@@ -461,6 +461,36 @@ $(document).ready(function(){
 
 
 
+<!--  HY 2019/7/8 -->	
+
+<!-- video标签 -->
+<script>
+vd1=$('<video/>',{
+				'id':'vd1',
+				'width':'512',
+				'height':'240',
+				'controls':'true'
+		}).append('<source src="../videoSource/x1.mp4" type="video/mp4">');
+
+vd2=$('<video/>',{
+				'id':'vd2',
+				'class':'img-responsive',
+				<!-- 视频文件相对路径 -->
+				'src':'../videoSource/x2.mp4',
+				'controls':'true'
+			});			
+			
+</script>
+
+浏览器中video标签的 mp4文件 播放有声音无图像的解决办法
+mp4的视频编码有三种：MPEG4(DivX)，MPEG4(Xvid)，AVC(H264)
+
+只有AVC(H264)编码格式的mp4才可以在浏览器中播放。
+
+<!--/  HY 2018/7/8 -->	
+
+
+
 
 <!-- ......................问题................................ -->
 
