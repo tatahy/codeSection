@@ -568,6 +568,38 @@ asyInitData()
 	
 });
 
+fetch(url).then(function(response) {
+  response.text().then(function(text) {
+    console.log(text);
+  });
+});
+
+fetch(url).then(
+	response=> {
+  		response.text().then(
+			text=>{
+    			console.log(text);
+  			}
+		);
+	}
+);
+
+fetch(url).then(function(response) {
+  return response.text()
+}).then(function(text) {
+  console.log(text);
+});
+
+//应用箭头函数改造
+fetch('url')
+.then(res=>{
+	return res.json();
+}).then(data=>{
+	console.log(data);
+}).catch(err=>{
+	console.log(err.message);
+})
+
 //  2019/03/14
 //增加随机因子salt（公钥）加密pwd
 //加密端发送：
