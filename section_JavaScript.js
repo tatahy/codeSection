@@ -638,9 +638,29 @@ let obj2={name:4,val:55}
 
 obj1=Object.assign({},obj1,obj2)
 
-/* !------2019/10/31 ------- */
+/* !------2021/5/31 ------- */
+//ES6 定义类
+class Person{
+    constructor(name,age){
+        this.name=name;
+        this.age=age;
+    
+    }
+    show(){
+        console.log(this.name,this.age);
+    }
 
-
+}
+//ES6 继承类
+class Mine extends Person{
+    constructor(...args){
+        super(...args);
+    }
+}
+//ES6 使用类
+const _mine= new Mine("a",18);
+//使用类的方法
+_mine.show();
 
 
 /* ------ 2019/03/05 ------- */
